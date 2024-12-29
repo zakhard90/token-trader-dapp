@@ -44,6 +44,8 @@ The dApp interacts with the [Trader smart contract](https://github.com/zakhard90
 - Mints tokens based on current exchange rates
 - Has a maximum purchase limit of 100 ETH per transaction
 
+Note: The Trader contract has to be allowed to mint tokens, so it has to be assigned the MINTER_ROLE on the Token contract.
+
 ## Configuration
 
 ### Supported Networks

@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { parseEther, formatEther } from 'viem'
-import { useAccount, useReadContract, useWriteContract } from 'wagmi'
+import { useAccount, useReadContract, useSendTransaction } from 'wagmi'
 import { TRADER_ADDRESS, TRADER_ABI } from '../app/contracts'
 
 export default function PurchaseForm() {
   const [ethAmount, setEthAmount] = useState('')
   const { address } = useAccount()
-  const { writeContract, isPending } = useWriteContract()
+  const { data: sendTransactionData, sendTransaction, isPending } = useSendTransaction()
 
   const { data: tokenAmount } = useReadContract({
     address: TRADER_ADDRESS,
@@ -22,13 +22,11 @@ export default function PurchaseForm() {
 
   const handlePurchase = async () => {
     if (!address || !ethAmount) return
-    
+
     try {
-      writeContract({
-        address: TRADER_ADDRESS,
-        abi: TRADER_ABI,
-        functionName: 'receive',
-        value: parseEther(ethAmount)
+      sendTransaction({
+        to: TRADER_ADDRESS,
+        value: parseEther(ethAmount),
       })
     } catch (error) {
       console.error('Error purchasing tokens:', error)
@@ -60,6 +58,12 @@ export default function PurchaseForm() {
           </p>
         )}
 
+        {sendTransactionData && (
+          <p className="text-sm text-green-600">
+            Transaction submitted! Hash: {sendTransactionData.slice(0, 10)}...
+          </p>
+        )}
+
         {!ethAmount && (
           <p className="text-sm text-red-600">
             Please enter an amount of ETH to purchase
@@ -72,7 +76,7 @@ export default function PurchaseForm() {
           className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {!address ? 'Connect Wallet' : 
-           isPending ? 'Purchasing...' : 
+           isPending ? 'Processing...' : 
            'Purchase Tokens'}
         </button>
       </div>

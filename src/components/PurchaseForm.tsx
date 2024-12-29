@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { parseEther, formatEther } from 'viem'
+import { parseEther } from 'viem'
 import { useAccount, useReadContract, useSendTransaction } from 'wagmi'
 import { TRADER_ADDRESS, TRADER_ABI } from '../app/contracts'
 
@@ -51,12 +51,14 @@ export default function PurchaseForm() {
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        
-        {tokenAmount && (
+
+        {tokenAmount && tokenAmount > 0 ? (
           <p className="text-sm text-gray-600">
-            You will receive: {formatEther(tokenAmount)} tokens
+            You will receive: {(tokenAmount / 100n)} tokens
           </p>
-        )}
+          ) : (
+            <p className="text-sm text-gray-600"></p>
+          )}
 
         {sendTransactionData && (
           <p className="text-sm text-green-600">

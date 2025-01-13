@@ -13,7 +13,6 @@ export default function Home() {
           </h1>
           
           <ConnectButton />
-          
           <PurchaseForm />
         </div>
       </div>

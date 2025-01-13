@@ -1,24 +1,41 @@
-import { createConfig, http } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { injected, metaMask, walletConnect } from 'wagmi/connectors'
+import {
+  createAppKit,
+  useAppKit,
+  useAppKitState,
+  useAppKitAccount,
+  useAppKitTheme,
+  useAppKitEvents,
+  useWalletInfo,
+  useAppKitNetwork,
+  useDisconnect
+} from '@reown/appkit/react'
+import { sepolia } from '@reown/appkit/networks'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
-export const config = createConfig({
-  chains: [mainnet, sepolia],
-  connectors: [
-    metaMask(),
-    walletConnect({
-      projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? ''
-    }),
-    injected(),
-  ],
-  transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-  },
+const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID ?? ''
+
+const wagmiAdapter = new WagmiAdapter({
+  networks: [sepolia],
+  projectId
 })
 
-declare module 'wagmi' {
-  interface Register {
-    config: typeof config
-  }
+const modal = createAppKit({
+  adapters: [wagmiAdapter],
+  networks: [sepolia],
+  allowUnsupportedChain: false,
+  features : {allWallets : true},
+  projectId
+ })
+
+export {
+  modal,
+  wagmiAdapter,
+  useAppKit,
+  useAppKitState,
+  useAppKitTheme,
+  useAppKitEvents,
+  useAppKitAccount,
+  useWalletInfo,
+  useAppKitNetwork,
+  useDisconnect
 }

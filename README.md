@@ -5,8 +5,8 @@ A decentralized application for purchasing tokens using ETH, built with Next.js 
 ## Prerequisites
 
 - Node.js 18+ and npm
-- MetaMask or WalletConnect compatible wallet
-- Access to Ethereum network (Mainnet or Sepolia testnet)
+- MetaMask or Reown compatible wallet
+- Access to Sepolia testnet
 
 ## Installation
 
@@ -18,7 +18,7 @@ npm install
 2. Create a `.env.local` file in the root directory:
 ```env
 NEXT_PUBLIC_TRADER_ADDRESS=<your-contract-address>
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<your-walletconnect-project-id>
+NEXT_PUBLIC_REOWN_PROJECT_ID=<your-walletconnect-project-id>
 ```
 
 3. Start the development server:
@@ -45,16 +45,6 @@ The dApp interacts with the [Trader smart contract](https://github.com/zakhard90
 - Has a maximum purchase limit of 100 ETH per transaction
 
 Note: The Trader contract has to be allowed to mint tokens, so it has to be assigned the MINTER_ROLE on the Token contract.
-
-## Configuration
-
-### Supported Networks
-- Ethereum Mainnet
-- Sepolia Testnet
-
-### Environment Variables
-- `NEXT_PUBLIC_TRADER_ADDRESS`: Deployed Trader contract address
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: WalletConnect project ID
 
 ## License
 
